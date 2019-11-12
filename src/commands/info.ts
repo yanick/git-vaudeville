@@ -4,6 +4,7 @@ import path from 'path';
 import report from 'yurnalist';
 import fs from 'fs';
 import {Vaudeville, hookTypes} from '../vaudeville';
+import { emojify } from 'node-emoji';
 
 export default async function list(vaudeville: Vaudeville) {
   report.log('Vaudeville directories');
@@ -19,7 +20,13 @@ export default async function list(vaudeville: Vaudeville) {
     }),
   );
 
+  report.log('');
+
   const hooks = await vaudeville.hooks;
+
+  if( Object.values(hooks).every( h => h.length === 0 ) ) {
+      report.log( emojify( "not a single hook found :cry:" ) );
+  }
 
   for (const t of hookTypes) {
     if (!hooks[t]) continue;
