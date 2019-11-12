@@ -7,6 +7,7 @@ const fp_1 = __importDefault(require("lodash/fp"));
 const yurnalist_1 = __importDefault(require("yurnalist"));
 const fs_1 = __importDefault(require("fs"));
 const vaudeville_1 = require("../vaudeville");
+const node_emoji_1 = require("node-emoji");
 async function list(vaudeville) {
     yurnalist_1.default.log('Vaudeville directories');
     yurnalist_1.default.list('', vaudeville.vaudeville_dirs.map(dir => {
@@ -18,7 +19,11 @@ async function list(vaudeville) {
         }
         return dir;
     }));
+    yurnalist_1.default.log('');
     const hooks = await vaudeville.hooks;
+    if (Object.values(hooks).every(h => h.length === 0)) {
+        yurnalist_1.default.log(node_emoji_1.emojify("not a single hook found :cry:"));
+    }
     for (const t of vaudeville_1.hookTypes) {
         if (!hooks[t])
             continue;
