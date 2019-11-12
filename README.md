@@ -80,3 +80,8 @@ $ echo "dummy HEAD dummy HEAD^" | git vaudeville run pre-push
 ## `git vaudeville help`
 
 Prints the list of commands.
+
+## Thanks
+
+Mad props go to Gizmo Mathboy to have come up with the name
+[Vaudeville](https://twitter.com/gizmomathboy/status/1174495897532715008).
