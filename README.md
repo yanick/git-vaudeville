@@ -75,6 +75,10 @@ you'll likely have to call it like so:
 
 ```
 $ echo "dummy HEAD dummy HEAD^" | git vaudeville run pre-push
+
+# or 
+
+$ git vaudeville run pre-push --stdin "dummy HEAD dummy HEAD^"
 ```
 
 ## `git vaudeville help`
