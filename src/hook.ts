@@ -1,15 +1,15 @@
-import path from 'path';
-import {cache} from 'decorator-cache-getter';
-import {sprintf} from 'sprintf-js';
-import color from './colors';
+import path from "path";
+import { cache } from "decorator-cache-getter";
+import { sprintf } from "sprintf-js";
+import color from "./colors";
 
-import fs from 'fs';
-import readline from 'readline';
-import {spawn} from 'child_process';
-import {Readable} from 'stream';
-import util from 'util';
+import fs from "fs";
+import readline from "readline";
+import { spawn } from "child_process";
+import { Readable } from "stream";
+import util from "util";
 
-import report from 'yurnalist';
+import report from "yurnalist";
 
 export default class Hook {
   path: string;
@@ -31,18 +31,18 @@ export default class Hook {
   }
 
   get prettyDir() {
-    return this.dir.replace(process.env['HOME'] as string, '~');
+    return this.dir.replace(process.env["HOME"] as string, "~");
   }
 
   get asReport() {
     return new Promise(async resolve => {
       resolve(
         sprintf(
-          '%s %s %s',
+          "%s %s %s",
           color.dir(this.prettyDir),
           color.script(this.name),
-          await this.abstract,
-        ),
+          await this.abstract
+        )
       );
     });
 
@@ -52,7 +52,7 @@ export default class Hook {
 
   get abstract() {
     const stream = fs.createReadStream(this.path);
-    const rl = readline.createInterface({input: stream, crlfDelay: Infinity});
+    const rl = readline.createInterface({ input: stream, crlfDelay: Infinity });
 
     return new Promise(async (resolve, reject) => {
       for await (const line of rl) {
@@ -71,20 +71,20 @@ export default class Hook {
     report.info(`running hook ${this.name}`);
 
     const x = spawn(this.path, [], {
-      stdio: ['pipe', 'inherit', 'inherit'],
+      stdio: ["pipe", "inherit", "inherit"]
     });
     x.stdin.write(stdin);
     x.stdin.end();
 
-    const result = await ( new Promise( (resolve,reject) => {
-      x.on('close', resolve );
-    }) );
+    const result = await new Promise((resolve, reject) => {
+      x.on("close", code => resolve(code));
+    });
 
-    if ( result !== 0 ) {
-        report.error( 'oh noes! Hook failed' );
-        throw new Error("hook failed");
+    if (result !== 0) {
+      report.error("oh noes! Hook failed");
+      throw new Error("hook failed");
     }
 
-    report.success('');
+    report.success("");
   }
 }

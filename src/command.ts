@@ -1,29 +1,34 @@
-import vaudeville, {CommanderStatic} from 'commander';
-import { Vaudeville } from './vaudeville';
+import vaudeville, { CommanderStatic } from "commander";
+import { Vaudeville } from "./vaudeville";
 
-const withInfo = (program :CommanderStatic ) => {
-    program.command('info',{ isDefault: true })
-        .description('list hooks for current repository')
-        .action( () => {
-            require('./commands/info').default(new Vaudeville());
-        })
+const withInfo = (program: CommanderStatic) => {
+  program
+    .command("info", { isDefault: true })
+    .description("list hooks for current repository")
+    .action(() => {
+      require("./commands/info").default(new Vaudeville());
+    });
 };
 
-const withRun = (program :CommanderStatic ) => {
-    program.command('run <phase>')
-        .option( '-i --stdin <input>', "input to be stdin'ed to the hooks")
-        .description('run the hooks of the given phase')
-        .action( (phase,opts) => {
-            require('./commands/run').default(new Vaudeville(),phase,opts);
-        })
+const withRun = (program: CommanderStatic) => {
+  program
+    .command("run <phase>")
+    .option("-i --stdin <input>", "input to be stdin'ed to the hooks")
+    .description("run the hooks of the given phase")
+    .action((phase, opts) => {
+      require("./commands/run")
+        .default(new Vaudeville(), phase, opts)
+        .catch(() => null);
+    });
 };
 
-const withInstall = (program :CommanderStatic ) => {
-    program.command('install')
-        .description('install git-vaudeville shims locally')
-        .action( (phase,opts) => {
-            require('./commands/install').default(new Vaudeville());
-        })
+const withInstall = (program: CommanderStatic) => {
+  program
+    .command("install")
+    .description("install git-vaudeville shims locally")
+    .action((phase, opts) => {
+      require("./commands/install").default(new Vaudeville());
+    });
 };
 
 withInfo(vaudeville);
@@ -33,4 +38,3 @@ withRun(vaudeville);
 withInstall(vaudeville);
 
 export default vaudeville;
-
