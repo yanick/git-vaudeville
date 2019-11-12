@@ -81,6 +81,15 @@ $ echo "dummy HEAD dummy HEAD^" | git vaudeville run pre-push
 
 Prints the list of commands.
 
+## Alternatives
+
+- [git-hooks](https://github.com/icefox/git-hooks). (although
+    you might want to use Sweth's [maintained
+    fork](https://github.com/sweth/git-hooks))  Shell-based, very
+    close to vaudeville. Main difference is `git-hooks` wants the
+    hooks to live in the repo (under `./git-hooks`), whereas
+    `vaudeville` hides them under `.git/hooks/vaudeville`.
+
 ## Thanks
 
 Mad props go to Gizmo Mathboy to have come up with the name
