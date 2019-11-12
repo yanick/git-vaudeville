@@ -2,6 +2,7 @@
 import { Vaudeville, hookTypes, HookPhase } from '../vaudeville';
 import { PassThrough } from 'stream';
 import fs from 'fs-extra';
+import report from 'yurnalist';
 
 function readStream(stream:any, encoding = "utf8") {
 
@@ -16,13 +17,20 @@ function readStream(stream:any, encoding = "utf8") {
     });
 }
 
-export default async function(vaudeville: Vaudeville,phase: HookPhase
+export default async function(vaudeville: Vaudeville,phase: HookPhase,
+                              opts: Partial<{ stdin: string }>
 ) {
     const hooks = (await vaudeville.hooks )[phase] || [];
 
-    const input = await readStream(process.stdin) as string;
+    const input = opts.stdin !== undefined ? opts.stdin : await readStream(process.stdin) as string;
 
-    for ( const h of hooks ) {
-        h.run(input)
-    }
+    return hooks.reduce(
+        (done,next) => done.then( () => next.run(input) ),
+        Promise.resolve()
+    ).catch(
+        () => {
+            report.error( "hook failed" );
+            throw new Error( "hook failed" );
+        }
+    );
 }

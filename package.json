@@ -33,12 +33,13 @@
     "@types/jest": "^24.0.22",
     "@types/lodash": "^4.14.146",
     "@types/node": "^12.12.7",
+    "@types/node-emoji": "^1.8.1",
     "@types/sprintf-js": "^1.1.2",
     "decorator-cache-getter": "^1.0.0",
     "jest": "^24.9.0",
+    "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.5.0",
-    "@types/node-emoji": "^1.8.1",
     "typescript": "^3.7.2"
   },
   "dependencies": {

@@ -57,9 +57,9 @@ is used as its description in the listing.
 
 ## `git vaudeville install`
 
-Installs the vaudeville shims locally in the current repository. 
+Installs the vaudeville shims locally in the current repository.
 If scripts already exist in `.git/hooks`, they are safely
-copied in a timestamped subdirectories. 
+copied in a timestamped subdirectories.
 
 The installation also creates `.git/hooks/vaudeville` and its
 subdirectories.
@@ -68,7 +68,7 @@ subdirectories.
 
 Runs all the hooks for a given `phase`.
 Typically you won't run it manually, but can be useful for testing /
-debugging. 
+debugging.
 
 Bear in mind that most hooks expect to get information via `stdin`. I.e.,
 you'll likely have to call it like so:

@@ -22,7 +22,7 @@ const withInstall = (program :CommanderStatic ) => {
     program.command('install')
         .description('install git-vaudeville shims locally')
         .action( (phase,opts) => {
-            require('./commands/install').default(new Vaudeville(),phase,opts);
+            require('./commands/install').default(new Vaudeville());
         })
 };
 
