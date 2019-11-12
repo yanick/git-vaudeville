@@ -14,7 +14,7 @@ const withInfo = (program) => {
 };
 const withRun = (program) => {
     program.command('run <phase>')
-        .option('-i --stdin', 'expects the command to be passed information on stdin')
+        .option('-i --stdin <input>', "input to be stdin'ed to the hooks")
         .description('run the hooks of the given phase')
         .action((phase, opts) => {
         require('./commands/run').default(new vaudeville_1.Vaudeville(), phase, opts);
