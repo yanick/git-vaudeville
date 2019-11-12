@@ -1,0 +1,51 @@
+{
+  "name": "git-vaudeville",
+  "version": "0.0.1",
+  "description": "Hook management system for git",
+  "main": "dist/index.js",
+  "bin": {
+      "git-vaudeville": "dist/cli.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanick/git-vaudeville.git"
+  },
+  "keywords": [
+    "git",
+    "hooks"
+  ],
+  "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanick/git-vaudeville/issues"
+  },
+  "homepage": "https://github.com/yanick/git-vaudeville#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@types/fs-extra": "^8.0.1",
+    "@types/jest": "^24.0.22",
+    "@types/lodash": "^4.14.146",
+    "@types/node": "^12.12.7",
+    "@types/sprintf-js": "^1.1.2",
+    "decorator-cache-getter": "^1.0.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.5.0",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "sprintf-js": "^1.1.2",
+    "fs-extra": "^8.1.0",
+    "chalk": "^3.0.0",
+    "commander": "^4.0.0",
+    "yurnalist": "^1.1.1",
+    "lodash": "^4.17.15"
+  }
+}
