@@ -2,7 +2,7 @@ import { Vaudeville, hookTypes, HookPhase } from "../vaudeville";
 import { PassThrough } from "stream";
 import fs from "fs-extra";
 import report from "yurnalist";
-import { emojify } from 'node-emoji';
+import { emojify } from "node-emoji";
 
 function readStream(stream: any, encoding = "utf8") {
   stream.setEncoding(encoding);
@@ -23,18 +23,23 @@ export default async function(
 ) {
   const hooks = (await vaudeville.hooks)[phase] || [];
 
-  if( hooks.length === 0 ) {
-      return;
+  if (hooks.length === 0) {
+    return;
   }
 
-  report.info( emojify(`:fishing_pole_and_fish: ${phase}` ));
+  report.info(emojify(`:fishing_pole_and_fish: ${phase}`));
 
   const input =
     opts.stdin !== undefined
       ? opts.stdin
+      : process.stdin.isTTY
+      ? ""
       : ((await readStream(process.stdin)) as string);
 
-  for (const hook of hooks) {
-    await hook.run(input);
-  }
+  return hooks
+    .reduce(
+      (soFar, next) => soFar.then(() => next.run(input)),
+      Promise.resolve()
+    )
+    .catch(e => e);
 }
