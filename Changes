@@ -1,6 +1,6 @@
 # Revision history for git-vaudeville
 
-NEXT
+0.0.2 2019-11-12
     - add sadness when there is no hook. (GH#1)
     - credit Gizmo Mathboy for the name. (GH#3)
     - mention alternatives. (GH#7)
