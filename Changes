@@ -1,5 +1,8 @@
 # Revision history for git-vaudeville
 
+NEXT
+    - make hook directories configurable. (GH#6)
+
 0.0.2 2019-11-12
     - add sadness when there is no hook. (GH#1)
     - credit Gizmo Mathboy for the name. (GH#3)
