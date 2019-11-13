@@ -19,6 +19,7 @@ function readStream(stream: any, encoding = "utf8") {
 export default async function(
   vaudeville: Vaudeville,
   phase: HookPhase,
+  args: string[],
   opts: Partial<{ stdin: string }>
 ) {
   const hooks = (await vaudeville.hooks)[phase] || [];
@@ -38,7 +39,7 @@ export default async function(
 
   return hooks
     .reduce(
-      (soFar, next) => soFar.then(() => next.run(input)),
+      (soFar, next) => soFar.then(() => next.run(input, args)),
       Promise.resolve()
     )
     .catch(e => e);

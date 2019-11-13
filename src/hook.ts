@@ -8,7 +8,7 @@ import readline from "readline";
 import { spawn } from "child_process";
 import { Readable } from "stream";
 import util from "util";
-import { emojify } from 'node-emoji';
+import { emojify } from "node-emoji";
 
 import report from "yurnalist";
 
@@ -68,10 +68,10 @@ export default class Hook {
     });
   }
 
-  async run(stdin: string) {
+  async run(stdin: string, args: string[]) {
     report.info(`running hook '${this.name}'`);
 
-    const x = spawn(this.path, [], {
+    const x = spawn(this.path, args, {
       stdio: ["pipe", "inherit", "inherit"]
     });
     x.stdin.write(stdin);
