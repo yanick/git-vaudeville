@@ -9,6 +9,7 @@ const colors_1 = __importDefault(require("./colors"));
 const fs_1 = __importDefault(require("fs"));
 const readline_1 = __importDefault(require("readline"));
 const child_process_1 = require("child_process");
+const node_emoji_1 = require("node-emoji");
 const yurnalist_1 = __importDefault(require("yurnalist"));
 class Hook {
     constructor(path) {
@@ -24,7 +25,7 @@ class Hook {
         return path_1.default.dirname(path_1.default.dirname(this.path));
     }
     get prettyDir() {
-        return this.dir.replace(process.env["HOME"], '~');
+        return this.dir.replace(process.env["HOME"], "~");
     }
     get asReport() {
         return new Promise(async (resolve) => {
@@ -33,8 +34,7 @@ class Hook {
     }
     get abstract() {
         const stream = fs_1.default.createReadStream(this.path);
-        const rl = readline_1.default.createInterface({ input: stream,
-            crlfDelay: Infinity });
+        const rl = readline_1.default.createInterface({ input: stream, crlfDelay: Infinity });
         return new Promise(async (resolve, reject) => {
             for await (const line of rl) {
                 const m = line.match(/ABSTRACT:\s*(.*)/);
@@ -48,16 +48,20 @@ class Hook {
         });
     }
     async run(stdin) {
-        yurnalist_1.default.info(`running hook ${this.name}`);
+        yurnalist_1.default.info(`running hook '${this.name}'`);
         const x = child_process_1.spawn(this.path, [], {
-            stdio: ['pipe', 'inherit', 'inherit']
+            stdio: ["pipe", "inherit", "inherit"]
         });
         x.stdin.write(stdin);
         x.stdin.end();
-        await new Promise((resolve) => {
-            x.on('close', resolve);
+        const result = await new Promise((resolve, reject) => {
+            x.on("close", code => resolve(code));
         });
-        yurnalist_1.default.success('');
+        if (result !== 0) {
+            yurnalist_1.default.error(node_emoji_1.emojify("oh noes! Hook failed :face_vomiting:"));
+            throw new Error("hook failed");
+        }
+        yurnalist_1.default.success("");
     }
 }
 exports.default = Hook;
