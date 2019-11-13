@@ -8,7 +8,9 @@ test("failing hook aborts the chain", async () => {
     }
   };
 
-  await expect(run(vaud as any, "pre-commit", { stdin: "" })).rejects.toThrow();
+  await expect(
+    run(vaud as any, "pre-commit", [], { stdin: "" })
+  ).rejects.toThrow();
 
   expect(spy).not.toHaveBeenCalled();
 });

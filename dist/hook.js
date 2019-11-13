@@ -47,9 +47,9 @@ class Hook {
             resolve(null);
         });
     }
-    async run(stdin) {
+    async run(stdin, args) {
         yurnalist_1.default.info(`running hook '${this.name}'`);
-        const x = child_process_1.spawn(this.path, [], {
+        const x = child_process_1.spawn(this.path, args, {
             stdio: ["pipe", "inherit", "inherit"]
         });
         x.stdin.write(stdin);

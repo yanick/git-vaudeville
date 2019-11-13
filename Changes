@@ -2,6 +2,7 @@
 
 NEXT
     - make hook directories configurable. (GH#6)
+    - pass the argv to the hooks. (GH#9)
 
 0.0.2 2019-11-12
     - add sadness when there is no hook. (GH#1)
@@ -10,7 +11,7 @@ NEXT
     - add --stdin option for 'run'. (GH#5)
     - abort hook chain if one of them fails.
     - print the name of the phase when running its hooks. (GH#4)
-    - don't try to read stdin if there's nothign there. (GH#8)
+    - don't try to read stdin if there's nothing there. (GH#8)
 
 0.0.1 2019-11-11
     - Initial release.

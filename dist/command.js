@@ -15,12 +15,12 @@ const withInfo = (program) => {
 };
 const withRun = (program) => {
     program
-        .command("run <phase>")
+        .command("run <phase> [args...]")
         .option("-i --stdin <input>", "input to be stdin'ed to the hooks")
         .description("run the hooks of the given phase")
-        .action((phase, opts) => {
+        .action((phase, args, opts) => {
         require("./commands/run")
-            .default(new vaudeville_1.Vaudeville(), phase, opts)
+            .default(new vaudeville_1.Vaudeville(), phase, args, opts)
             .catch(() => null);
     });
 };

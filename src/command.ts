@@ -12,12 +12,12 @@ const withInfo = (program: CommanderStatic) => {
 
 const withRun = (program: CommanderStatic) => {
   program
-    .command("run <phase>")
+    .command("run <phase> [args...]")
     .option("-i --stdin <input>", "input to be stdin'ed to the hooks")
     .description("run the hooks of the given phase")
-    .action((phase, opts) => {
+    .action((phase, args, opts) => {
       require("./commands/run")
-        .default(new Vaudeville(), phase, opts)
+        .default(new Vaudeville(), phase, args, opts)
         .catch(() => null);
     });
 };
