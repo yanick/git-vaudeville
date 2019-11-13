@@ -14,7 +14,7 @@ function readStream(stream, encoding = "utf8") {
         stream.on("error", (error) => reject(error));
     });
 }
-async function default_1(vaudeville, phase, opts) {
+async function default_1(vaudeville, phase, args, opts) {
     const hooks = (await vaudeville.hooks)[phase] || [];
     if (hooks.length === 0) {
         return;
@@ -26,7 +26,6 @@ async function default_1(vaudeville, phase, opts) {
             ? ""
             : (await readStream(process.stdin));
     return hooks
-        .reduce((soFar, next) => soFar.then(() => next.run(input)), Promise.resolve())
-        .catch(e => e);
+        .reduce((soFar, next) => soFar.then(() => next.run(input, args)), Promise.resolve());
 }
 exports.default = default_1;

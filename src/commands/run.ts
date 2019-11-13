@@ -41,6 +41,5 @@ export default async function(
     .reduce(
       (soFar, next) => soFar.then(() => next.run(input, args)),
       Promise.resolve()
-    )
-    .catch(e => e);
+    );
 }
