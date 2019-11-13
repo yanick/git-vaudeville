@@ -47,7 +47,7 @@ scripts for each phase.
 
 ## Commands
 
-## `git vaudeville info`
+### `git vaudeville info`
 
 Provides a report of the directories `vaudeville` looks at
 for hook scripts, as well as all the hooks it found.
@@ -55,7 +55,7 @@ for hook scripts, as well as all the hooks it found.
 If a script contains a line beginning with `ABSTRACT:`, it
 is used as its description in the listing.
 
-## `git vaudeville install`
+### `git vaudeville install`
 
 Installs the vaudeville shims locally in the current repository.
 If scripts already exist in `.git/hooks`, they are safely
@@ -64,7 +64,7 @@ copied in a timestamped subdirectories.
 The installation also creates `.git/hooks/vaudeville` and its
 subdirectories.
 
-## `git vaudeville run <phase>`
+### `git vaudeville run <phase>`
 
 Runs all the hooks for a given `phase`.
 Typically you won't run it manually, but can be useful for testing /
@@ -81,9 +81,24 @@ $ echo "dummy HEAD dummy HEAD^" | git vaudeville run pre-push
 $ git vaudeville run pre-push --stdin "dummy HEAD dummy HEAD^"
 ```
 
-## `git vaudeville help`
+### `git vaudeville help`
 
 Prints the list of commands.
+
+## Configuration
+
+### Vaudeville directories
+
+By default Vaudeville looks for hooks in the global directory `~/git/vaudeville` and 
+the local directory `./.git/hooks/vaudevilles`. This can be customized via the 
+git configuration key `vaudeville.dirs`. For example, to use
+`~/git/vaudeville` (for global hooks), `./.git/hooks/vaudeville` (for local
+private hooks), and `./git-hooks` (for public local hooks):
+
+```
+$ git config --global vaudeville.dirs ~/git/vaudeville,./.git/hooks/vaudeville,./git-hooks
+```
+
 
 ## Alternatives
 
