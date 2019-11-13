@@ -1,6 +1,6 @@
 # Revision history for git-vaudeville
 
-NEXT
+0.0.3 2019-11-13
     - make hook directories configurable. (GH#6)
     - pass the argv to the hooks. (GH#9)
 
