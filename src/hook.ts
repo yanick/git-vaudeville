@@ -8,6 +8,7 @@ import readline from "readline";
 import { spawn } from "child_process";
 import { Readable } from "stream";
 import util from "util";
+import { emojify } from 'node-emoji';
 
 import report from "yurnalist";
 
@@ -68,7 +69,7 @@ export default class Hook {
   }
 
   async run(stdin: string) {
-    report.info(`running hook ${this.name}`);
+    report.info(`running hook '${this.name}'`);
 
     const x = spawn(this.path, [], {
       stdio: ["pipe", "inherit", "inherit"]
@@ -81,7 +82,7 @@ export default class Hook {
     });
 
     if (result !== 0) {
-      report.error("oh noes! Hook failed");
+      report.error(emojify("oh noes! Hook failed :face_vomiting:"));
       throw new Error("hook failed");
     }
 

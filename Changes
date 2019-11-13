@@ -6,6 +6,7 @@ NEXT
     - mention alternatives. (GH#7)
     - add --stdin option for 'run'. (GH#5)
     - abort hook chain if one of them fails.
+    - print the name of the phase when running its hooks. (GH#4)
 
 0.0.1 2019-11-11
     - Initial release.
