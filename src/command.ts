@@ -18,7 +18,7 @@ const withRun = (program: CommanderStatic) => {
     .action((phase, args, opts) => {
       require("./commands/run")
         .default(new Vaudeville(), phase, args, opts)
-        .catch(() => null);
+        .catch(() => process.exit(1));
     });
 };
 
