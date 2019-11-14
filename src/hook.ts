@@ -69,38 +69,42 @@ export default class Hook {
   }
 
   get isEnabled() {
-      return fs.access(this.path,fs.constants.X_OK).then(()=>true).catch(() => false);
+    return fs
+      .access(this.path, fs.constants.X_OK)
+      .then(() => true)
+      .catch(() => false);
   }
 
   get info() {
-      // TODO add colors
-      // TODO grey if hook is not enabled
-      return (async () => {
+    // TODO add colors
+    // TODO grey if hook is not enabled
+    return (async () => {
       let info = await this.prettyName;
 
       const abstract = await this.abstract;
-      if( abstract ) {
-          info = info + "\n\t" + abstract;
+      if (abstract) {
+        info = info + "\n\t" + abstract;
       }
 
       return info;
-      })();
+    })();
   }
 
   get prettyName() {
-      return (async () => {
-      const nameColor = (await this.isEnabled) ? color.script : color.inexistent;
-      let name =                     color.dir(this.prettyDir) + '/'
-            + nameColor( this.name );
-        if( !await this.isEnabled ) {
-            name = name + emojify( ' :octagonal_sign:');
-        }
-        return name;
-      })();
+    return (async () => {
+      const nameColor = (await this.isEnabled)
+        ? color.script
+        : color.inexistent;
+      let name = color.dir(this.prettyDir) + "/" + nameColor(this.name);
+      if (!(await this.isEnabled)) {
+        name = name + emojify(" :octagonal_sign:");
+      }
+      return name;
+    })();
   }
 
   async run(stdin: string, args: string[]) {
-    if(!await this.isEnabled ) return;
+    if (!(await this.isEnabled)) return;
 
     report.info(emojify(`:runner: ${await this.prettyName}`));
 

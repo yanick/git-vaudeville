@@ -29,15 +29,15 @@ export default async function list(vaudeville: Vaudeville) {
   }
 
   for (const t in hooks) {
-
     // TODO show that a hook is inactive if it's not +x
-    if( !hookTypes.includes(t) ) {
-        report.log( emojify( `${t} (custom phase :sparkles:)` ) )
+    if (!hookTypes.includes(t)) {
+      report.log(emojify(`${t} (custom phase :sparkles:)`));
+    } else {
+      report.log(t);
     }
-    else { report.log(t); }
 
-    Promise.all(hooks[t].map( h => h.info ) ).then(
-        lines => report.list( '', lines )
+    Promise.all(hooks[t].map(h => h.info)).then(lines =>
+      report.list("", lines)
     );
   }
 }
