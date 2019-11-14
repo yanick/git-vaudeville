@@ -41,32 +41,18 @@ export type HookPhase =
   | "pre-applypatch"
   | "pre-push";
 
-const getHooks = async (dir: string) => {
-  let files = fp.flatten(
-    await Promise.all(
-      hookTypes
-        .map(h => path.join(dir, h))
-        .map(dir =>
-          fs
-            .readdir(dir)
-            .then(files => files.map(f => path.join(dir, f)))
-            .catch(() => [])
-        )
-    ).catch(() => [])
-  );
+async function myReaddir(dir :string) {
+    return fs.readdir(dir).then( entries => entries.map( e => path.join(dir,e) ) )
+    .catch( ()=>[] );
+}
 
-  return fp.compact(
-    await Promise.all(
-      files.map(
-        (f: unknown): Promise<string> =>
-          fs
-            .access(f as string, fs.constants.X_OK)
-            .then(() => f as string)
-            .catch(() => "")
-      )
-    ).catch(() => [])
-  );
-};
+const getHooks = async (dir: string): Promise<string[]> => {
+  return ( myReaddir(dir)  as any
+         )
+    .then( (subdirs:string[]) => subdirs.map( d => myReaddir(d) ) )
+    .then( (d:any) => Promise.all(d) )
+    .then( fp.flatten );
+}
 
 export class Vaudeville {
   constructor() {}

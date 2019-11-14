@@ -37,9 +37,14 @@ export default async function(
       ? ""
       : ((await readStream(process.stdin)) as string);
 
-  return hooks
-    .reduce(
-      (soFar, next) => soFar.then(() => next.run(input, args)),
-      Promise.resolve()
-    );
+      try {
+    for ( const hook of hooks ) {
+        await hook.run(input,args);
+    }
+      } catch(e) {
+          report.error(emojify("oh noes! Hook failed :face_vomiting:"));
+          throw e;
+      }
+
+    return;
 }

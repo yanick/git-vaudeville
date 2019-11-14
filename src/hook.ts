@@ -1,9 +1,9 @@
 import path from "path";
 import { cache } from "decorator-cache-getter";
 import { sprintf } from "sprintf-js";
-import color from "./colors";
+import * as color from "./colors";
 
-import fs from "fs";
+import fs from "fs-extra";
 import readline from "readline";
 import { spawn } from "child_process";
 import { Readable } from "stream";
@@ -68,8 +68,41 @@ export default class Hook {
     });
   }
 
+  get isEnabled() {
+      return fs.access(this.path,fs.constants.X_OK).then(()=>true).catch(() => false);
+  }
+
+  get info() {
+      // TODO add colors
+      // TODO grey if hook is not enabled
+      return (async () => {
+      let info = await this.prettyName;
+
+      const abstract = await this.abstract;
+      if( abstract ) {
+          info = info + "\n\t" + abstract;
+      }
+
+      return info;
+      })();
+  }
+
+  get prettyName() {
+      return (async () => {
+      const nameColor = (await this.isEnabled) ? color.script : color.inexistent;
+      let name =                     color.dir(this.prettyDir) + '/'
+            + nameColor( this.name );
+        if( !await this.isEnabled ) {
+            name = name + emojify( ' :octagonal_sign:');
+        }
+        return name;
+      })();
+  }
+
   async run(stdin: string, args: string[]) {
-    report.info(`running hook '${this.name}'`);
+    if(!await this.isEnabled ) return;
+
+    report.info(emojify(`:runner: ${await this.prettyName}`));
 
     const x = spawn(this.path, args, {
       stdio: ["pipe", "inherit", "inherit"]
@@ -82,10 +115,9 @@ export default class Hook {
     });
 
     if (result !== 0) {
-      report.error(emojify("oh noes! Hook failed :face_vomiting:"));
       throw new Error("hook failed");
     }
 
-    report.success("");
+    report.success(emojify(":100:"));
   }
 }
