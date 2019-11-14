@@ -4,9 +4,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
-exports.default = {
-    inexistent: chalk_1.default.keyword('grey'),
-    dir: chalk_1.default.keyword('blue'),
-    phase: chalk_1.default.green,
-    script: chalk_1.default.keyword('darkblue'),
-};
+exports.base03 = chalk_1.default.hex('#002b36');
+exports.base02 = chalk_1.default.hex('#073642');
+exports.base01 = chalk_1.default.hex('#586e75');
+exports.base00 = chalk_1.default.hex('#657b83');
+exports.base0 = chalk_1.default.hex('#839496');
+exports.base1 = chalk_1.default.hex('#93a1a1');
+exports.base2 = chalk_1.default.hex('#eee8d5');
+exports.base3 = chalk_1.default.hex('#fdf6e3');
+exports.yellow = chalk_1.default.hex('#b58900');
+exports.orange = chalk_1.default.hex('#cb4b16');
+exports.red = chalk_1.default.hex('#dc322f');
+exports.magenta = chalk_1.default.hex('#d33682');
+exports.violet = chalk_1.default.hex('#6c71c4');
+exports.blue = chalk_1.default.hex('#268bd2');
+exports.cyan = chalk_1.default.hex('#2aa198');
+exports.green = chalk_1.default.hex('#859900');
+exports.inexistent = exports.base01;
+exports.dir = exports.cyan;
+exports.phase = exports.green;
+exports.script = exports.blue;

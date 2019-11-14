@@ -25,17 +25,15 @@ exports.hookTypes = [
     "pre-applypatch",
     "pre-push"
 ];
+async function myReaddir(dir) {
+    return fs_extra_1.default.readdir(dir).then(entries => entries.map(e => path_1.default.join(dir, e)))
+        .catch(() => []);
+}
 const getHooks = async (dir) => {
-    let files = fp_1.default.flatten(await Promise.all(exports.hookTypes
-        .map(h => path_1.default.join(dir, h))
-        .map(dir => fs_extra_1.default
-        .readdir(dir)
-        .then(files => files.map(f => path_1.default.join(dir, f)))
-        .catch(() => []))).catch(() => []));
-    return fp_1.default.compact(await Promise.all(files.map((f) => fs_extra_1.default
-        .access(f, fs_extra_1.default.constants.X_OK)
-        .then(() => f)
-        .catch(() => ""))).catch(() => []));
+    return myReaddir(dir)
+        .then((subdirs) => subdirs.map(d => myReaddir(d)))
+        .then((d) => Promise.all(d))
+        .then(fp_1.default.flatten);
 };
 class Vaudeville {
     constructor() { }

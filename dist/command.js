@@ -21,7 +21,7 @@ const withRun = (program) => {
         .action((phase, args, opts) => {
         require("./commands/run")
             .default(new vaudeville_1.Vaudeville(), phase, args, opts)
-            .catch(() => null);
+            .catch(() => process.exit(1));
     });
 };
 const withInstall = (program) => {
