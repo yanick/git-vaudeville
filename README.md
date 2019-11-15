@@ -89,8 +89,8 @@ Prints the list of commands.
 
 ### Vaudeville directories
 
-By default Vaudeville looks for hooks in the global directory `~/git/vaudeville` and 
-the local directory `./.git/hooks/vaudevilles`. This can be customized via the 
+By default Vaudeville looks for hooks in the global directory `~/git/vaudeville` and
+the local directory `./.git/hooks/vaudevilles`. This can be customized via the
 git configuration key `vaudeville.dirs`. For example, to use
 `~/git/vaudeville` (for global hooks), `./.git/hooks/vaudeville` (for local
 private hooks), and `./git-hooks` (for public local hooks):
@@ -124,15 +124,38 @@ and git merge --no-ff -
 
 
 
+## Custom hook phases
+
+It's totally possible to add custom hook phases by adding subdirectories of
+scripts in the vaudeville directories.
+
+For example, I have a command `git-integrate` that merges work back
+to a main branch after running a bunch of checks:
+
+```
+#!/usr/bin/env fish
+
+set -l branch $argv[1]
+
+if test -z $branch
+    set branch master
+end
+
+git vaudeville run integrate ( git rev-parse HEAD) $branch
+
+and git checkout $branch
+
+and git merge --no-ff -
+```
 
 ## Alternatives
 
 - [git-hooks](https://github.com/icefox/git-hooks). (although
-    you might want to use Sweth's [maintained
-    fork](https://github.com/sweth/git-hooks))  Shell-based, very
-    close to vaudeville. Main difference is `git-hooks` wants the
-    hooks to live in the repo (under `./git-hooks`), whereas
-    `vaudeville` hides them under `.git/hooks/vaudeville`.
+  you might want to use Sweth's [maintained
+  fork](https://github.com/sweth/git-hooks)) Shell-based, very
+  close to vaudeville. Main difference is `git-hooks` wants the
+  hooks to live in the repo (under `./git-hooks`), whereas
+  `vaudeville` hides them under `.git/hooks/vaudeville`.
 
 ## Thanks
 
