@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fp_1 = __importDefault(require("lodash/fp"));
 const yurnalist_1 = __importDefault(require("yurnalist"));
 const fs_1 = __importDefault(require("fs"));
 const vaudeville_1 = require("../vaudeville");
@@ -24,16 +23,14 @@ async function list(vaudeville) {
     if (Object.values(hooks).every(h => h.length === 0)) {
         yurnalist_1.default.log(node_emoji_1.emojify("not a single hook found :cry:"));
     }
-    for (const t of vaudeville_1.hookTypes) {
-        if (!hooks[t])
-            continue;
-        const hints = {};
-        for (const h of hooks[t]) {
-            const abstract = await h.abstract;
-            hints[h.name] = `${h.prettyDir}${abstract ? " - " + abstract : ""}`;
+    for (const t in hooks) {
+        if (!vaudeville_1.hookTypes.includes(t)) {
+            yurnalist_1.default.log(node_emoji_1.emojify(`${t} (custom phase :sparkles:)`));
         }
-        yurnalist_1.default.log(t);
-        yurnalist_1.default.list("", hooks[t].map(fp_1.default.get("name")), hints);
+        else {
+            yurnalist_1.default.log(t);
+        }
+        Promise.all(hooks[t].map(h => h.info)).then(lines => yurnalist_1.default.list("", lines));
     }
 }
 exports.default = list;
