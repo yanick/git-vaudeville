@@ -28,17 +28,16 @@ export default async function list(vaudeville: Vaudeville) {
     report.log(emojify("not a single hook found :cry:"));
   }
 
-  for (const t of hookTypes) {
-    if (!hooks[t]) continue;
-
-    const hints: any = {};
-
-    for (const h of hooks[t]) {
-      const abstract = await h.abstract;
-      hints[h.name] = `${h.prettyDir}${abstract ? " - " + abstract : ""}`;
+  for (const t in hooks) {
+    // TODO show that a hook is inactive if it's not +x
+    if (!hookTypes.includes(t)) {
+      report.log(emojify(`${t} (custom phase :sparkles:)`));
+    } else {
+      report.log(t);
     }
 
-    report.log(t);
-    report.list("", hooks[t].map(fp.get("name")), hints);
+    Promise.all(hooks[t].map(h => h.info)).then(lines =>
+      report.list("", lines)
+    );
   }
 }
