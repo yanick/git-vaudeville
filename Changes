@@ -1,6 +1,6 @@
 # Revision history for git-vaudeville
 
-NEXT
+0.1.0 2019-11-15
     - custom hook phases! (GH2)
 
 0.0.3 2019-11-13
