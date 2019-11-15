@@ -2,18 +2,11 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const sprintf_js_1 = require("sprintf-js");
-const color = __importStar(require("./colors"));
-const fs_extra_1 = __importDefault(require("fs-extra"));
+const colors_1 = __importDefault(require("./colors"));
+const fs_1 = __importDefault(require("fs"));
 const readline_1 = __importDefault(require("readline"));
 const child_process_1 = require("child_process");
 const node_emoji_1 = require("node-emoji");
@@ -36,11 +29,11 @@ class Hook {
     }
     get asReport() {
         return new Promise(async (resolve) => {
-            resolve(sprintf_js_1.sprintf("%s %s %s", color.dir(this.prettyDir), color.script(this.name), await this.abstract));
+            resolve(sprintf_js_1.sprintf("%s %s %s", colors_1.default.dir(this.prettyDir), colors_1.default.script(this.name), await this.abstract));
         });
     }
     get abstract() {
-        const stream = fs_extra_1.default.createReadStream(this.path);
+        const stream = fs_1.default.createReadStream(this.path);
         const rl = readline_1.default.createInterface({ input: stream, crlfDelay: Infinity });
         return new Promise(async (resolve, reject) => {
             for await (const line of rl) {
@@ -54,34 +47,8 @@ class Hook {
             resolve(null);
         });
     }
-    get isEnabled() {
-        return fs_extra_1.default.access(this.path, fs_extra_1.default.constants.X_OK).then(() => true).catch(() => false);
-    }
-    get info() {
-        return (async () => {
-            let info = await this.prettyName;
-            const abstract = await this.abstract;
-            if (abstract) {
-                info = info + "\n\t" + abstract;
-            }
-            return info;
-        })();
-    }
-    get prettyName() {
-        return (async () => {
-            const nameColor = (await this.isEnabled) ? color.script : color.inexistent;
-            let name = color.dir(this.prettyDir) + '/'
-                + nameColor(this.name);
-            if (!await this.isEnabled) {
-                name = name + node_emoji_1.emojify(' :octagonal_sign:');
-            }
-            return name;
-        })();
-    }
     async run(stdin, args) {
-        if (!await this.isEnabled)
-            return;
-        yurnalist_1.default.info(node_emoji_1.emojify(`:runner: ${await this.prettyName}`));
+        yurnalist_1.default.info(`running hook '${this.name}'`);
         const x = child_process_1.spawn(this.path, args, {
             stdio: ["pipe", "inherit", "inherit"]
         });
@@ -91,9 +58,10 @@ class Hook {
             x.on("close", code => resolve(code));
         });
         if (result !== 0) {
+            yurnalist_1.default.error(node_emoji_1.emojify("oh noes! Hook failed :face_vomiting:"));
             throw new Error("hook failed");
         }
-        yurnalist_1.default.success(node_emoji_1.emojify(":100:"));
+        yurnalist_1.default.success("");
     }
 }
 exports.default = Hook;

@@ -25,15 +25,7 @@ async function default_1(vaudeville, phase, args, opts) {
         : process.stdin.isTTY
             ? ""
             : (await readStream(process.stdin));
-    try {
-        for (const hook of hooks) {
-            await hook.run(input, args);
-        }
-    }
-    catch (e) {
-        yurnalist_1.default.error(node_emoji_1.emojify("oh noes! Hook failed :face_vomiting:"));
-        throw e;
-    }
-    return;
+    return hooks
+        .reduce((soFar, next) => soFar.then(() => next.run(input, args)), Promise.resolve());
 }
 exports.default = default_1;
