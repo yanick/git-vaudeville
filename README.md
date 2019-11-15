@@ -103,32 +103,6 @@ $ git config --global vaudeville.dirs ~/git/vaudeville,./.git/hooks/vaudeville,.
 It's totally possible to add custom hook phases by adding subdirectories of
 scripts in the vaudeville directories.
 
-For example, I have a command `git-integrate` that merges work back 
-to a main branch after running a bunch of checks:
-
-```
-#!/usr/bin/env fish
-
-set -l branch $argv[1]
-
-if test -z $branch
-    set branch master
-end
-
-git vaudeville run integrate ( git rev-parse HEAD) $branch
-
-and git checkout $branch
-
-and git merge --no-ff -
-```
-
-
-
-## Custom hook phases
-
-It's totally possible to add custom hook phases by adding subdirectories of
-scripts in the vaudeville directories.
-
 For example, I have a command `git-integrate` that merges work back
 to a main branch after running a bunch of checks:
 
