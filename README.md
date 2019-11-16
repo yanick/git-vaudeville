@@ -98,6 +98,7 @@ private hooks), and `./git-hooks` (for public local hooks):
 ```
 $ git config --global vaudeville.dirs ~/git/vaudeville,./.git/hooks/vaudeville,./git-hooks
 ```
+
 ## Custom hook phases
 
 It's totally possible to add custom hook phases by adding subdirectories of
