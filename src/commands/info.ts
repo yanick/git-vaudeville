@@ -36,7 +36,7 @@ export default async function list(vaudeville: Vaudeville) {
       report.log(t);
     }
 
-    Promise.all(hooks[t].map(h => h.info)).then(lines =>
+    await Promise.all(hooks[t].map(h => h.info)).then(lines =>
       report.list("", lines)
     );
   }

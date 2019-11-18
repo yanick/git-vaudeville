@@ -1,7 +1,11 @@
 # Revision history for git-vaudeville
 
+NEXT
+    - remove repeated section in the README (GH#11, Alex Beamish)
+    - 'info' was not printing the hooks in their right phases.
+
 0.1.0 2019-11-15
-    - custom hook phases! (GH2)
+    - custom hook phases! (GH#2)
 
 0.0.3 2019-11-13
     - make hook directories configurable. (GH#6)
