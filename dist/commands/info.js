@@ -30,7 +30,7 @@ async function list(vaudeville) {
         else {
             yurnalist_1.default.log(t);
         }
-        Promise.all(hooks[t].map(h => h.info)).then(lines => yurnalist_1.default.list("", lines));
+        await Promise.all(hooks[t].map(h => h.info)).then(lines => yurnalist_1.default.list("", lines));
     }
 }
 exports.default = list;
