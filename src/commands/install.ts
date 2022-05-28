@@ -9,12 +9,18 @@ async function makeLocalVaudDir() {
   const dir = "./.git/hooks/vaudeville";
   report.info(`creating the local vaudeville directory ${dir}`);
 
-  await fs.ensureDir(dir);
+  await /* TODO: JSFIX could not patch the breaking change:
+  Creating a directory with fs-extra no longer returns the path 
+  Suggested fix: The returned promise no longer includes the path of the new directory */
+  fs.ensureDir(dir);
 
   const tick = report.progress(hookTypes.length);
 
   for (const subdir of hookTypes) {
-    await fs.ensureDir(path.join(dir, subdir));
+    await /* TODO: JSFIX could not patch the breaking change:
+    Creating a directory with fs-extra no longer returns the path 
+    Suggested fix: The returned promise no longer includes the path of the new directory */
+    fs.ensureDir(path.join(dir, subdir));
     tick();
   }
 
